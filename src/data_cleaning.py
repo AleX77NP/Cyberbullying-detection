@@ -1,6 +1,5 @@
 import re
 import string
-import demoji
 from nltk.tokenize import word_tokenize
 from langdetect import detect, LangDetectException
 import contractions
