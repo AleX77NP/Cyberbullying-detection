@@ -29,7 +29,7 @@ def evaluate_model(model, eval_dataloader, criterion):
     total_val_acc, total_val_count = 0, 0
 
     with torch.no_grad():
-        for idx, (label, text, offsets) in enumerate(eval_dataloader):
+        for _, (label, text, offsets) in enumerate(eval_dataloader):
             predicted_label = model(text, offsets)
             loss = criterion(predicted_label, label)
             total_val_acc += (predicted_label.argmax(1) == label).sum().item()
@@ -41,5 +41,5 @@ def evaluate_model(model, eval_dataloader, criterion):
 def predict(model, text, text_pipeline):
     with torch.no_grad():
         text = torch.tensor(text_pipeline(text))
-        output = model(text)
-        return output.argmax(1).item() + 1
+        output = model(text, torch.tensor([0]))
+        return output.argmax(1).item()
